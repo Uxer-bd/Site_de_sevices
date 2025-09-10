@@ -42,6 +42,7 @@ const Profile = () => {
       <h1>Page de profil</h1>
       <p>Email : {user.email}</p>
       <p>Rôle : {user.role}</p>
+      <p>id : {user.id}</p>
       {/* Ici, tu peux ajouter des informations spécifiques au rôle */}
     </div>
   );

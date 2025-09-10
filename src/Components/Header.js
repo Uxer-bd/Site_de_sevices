@@ -19,7 +19,10 @@ const Header = () => {
         <Link href="/">Accueil</Link>
         {isLoggedIn && <Link href="/profile" style={{ marginLeft: '1rem' }}>Mon Profil</Link>}
         {isLoggedIn && userRole === 'prestataire' && (
-          <Link href="/publish" style={{ marginLeft: '1rem' }}> Publier une annonce </Link>
+          <>
+            <Link href="/publish" style={{ marginLeft: '1rem' }}> Publier une annonce </Link>
+            <Link href="/my-services" style={{ marginLeft: '1rem' }}>Mes Annonces</Link>
+          </>
         )}
       </nav>
       <nav>

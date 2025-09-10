@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
     req.userData = { id: decodedToken.id, role: decodedToken.role }; // Ajoute les données à la requête
     next();
   } catch (error) {
-    console.error('Erreur du middleware d\'authentification :', error.message);
+    console.error("Échec de l'authentification :", error);
     res.status(401).json({ message: 'Authentification échouée !' });
   }
 };

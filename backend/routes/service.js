@@ -68,6 +68,29 @@ router.delete('/:id', authMiddleware, async (req, res) => {
   }
 });
 
+// Route pour récupérer les annonces d'un prestataire spécifique (protégée)
+router.get('/my-services', authMiddleware, async (req, res) => {
+  try {
+    const services = await Service.find({ prestataire: req.userData.id });
+    res.status(200).json(services);
+  } catch (error) {
+    res.status(500).json({ message: 'Erreur lors de la récupération de vos annonces.' });
+  }
+});
+
+// Route pour récupérer une annonce par ID (accessible à tous)
+router.get('/:id', async (req, res) => {
+  try {
+    const service = await Service.findById(req.params.id).populate('prestataire', 'email');
+    if (!service) {
+      return res.status(404).json({ message: 'Annonce non trouvée.' });
+    }
+    res.status(200).json(service);
+  } catch (error) {
+    res.status(500).json({ message: 'Erreur lors de la récupération de l\'annonce.' });
+  }
+});
+
 // Route pour récupérer toutes les annonces (accessible à tous)
 router.get('/', async (req, res) => {
   try {
@@ -77,5 +100,6 @@ router.get('/', async (req, res) => {
     res.status(500).json({ message: 'Erreur lors de la récupération des annonces.' });
   }
 });
+
 
 module.exports = router;
