@@ -23,8 +23,8 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <h1>Connexion</h1>
+    <div className='login-container'>
+      <h1 style={{ marginBottom : '20px' }}>Connexion</h1>
       <form onSubmit={handleLogin}>
         <div>
           <label>Email:</label>
@@ -36,6 +36,7 @@ const Login = () => {
         </div>
         <button type="submit">Se connecter</button>
       </form>
+      <h6 style={{ margin : '20px' }}>Vous n'avez pas de compte ? Inscrivez-vous en tant que <a href="/register" style={{ color : 'blue' }}>Prestataire</a> ou <a href="/register-client" style={{ color : 'blue' }}>Client</a></h6>
     </div>
   );
 };

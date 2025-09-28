@@ -10,6 +10,8 @@ const Publish = () => {
   const [category, setCategory] = useState('jardinage');
   const [price, setPrice] = useState('');
   const [location, setLocation] = useState('');
+  const [image, setImage] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
 
   const router = useRouter();
   const { isLoggedIn, userRole } = useAuth(); // Nous allons ajouter userRole au contexte
@@ -23,15 +25,36 @@ const Publish = () => {
     }
   }, [isLoggedIn, userRole, router]);
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      const serviceData = { title, description, category, price, location };
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('description', description);
+      formData.append('category', category);
+      formData.append('price', price);
+      formData.append('location', location);
+      if (image) {
+        formData.append('image', image);
+      }
 
-      await axios.post('http://localhost:5000/api/services', serviceData, {
+      await axios.post('http://localhost:5000/api/services', formData, {
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
         },
       });
 
@@ -77,7 +100,43 @@ const Publish = () => {
           <label>Localisation:</label>
           <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} required />
         </div>
-        <button type="submit">Publier l'annonce</button>
+        <div>
+          <label>Image du service:</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            style={{ marginBottom: '10px' }}
+          />
+          {previewUrl && (
+            <div style={{ marginTop: '10px' }}>
+              <p>Aperçu de l'image:</p>
+              <img 
+                src={previewUrl} 
+                alt="Aperçu" 
+                style={{ 
+                  maxWidth: '200px', 
+                  maxHeight: '200px', 
+                  objectFit: 'cover' 
+                }} 
+              />
+            </div>
+          )}
+        </div>
+        <button 
+          type="submit"
+          style={{
+            backgroundColor: '#4CAF50',
+            color: 'white',
+            padding: '10px 20px',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            marginTop: '20px'
+          }}
+        >
+          Publier l'annonce
+        </button>
       </form>
     </div>
   );

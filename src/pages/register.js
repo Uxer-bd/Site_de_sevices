@@ -21,8 +21,8 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <h1>Inscription</h1>
+    <div className='register-container'>
+      <h1 style={{ marginBottom : '20px' }}>Inscription</h1>
       <form onSubmit={handleRegister}>
         <div>
           <label>Email:</label>
