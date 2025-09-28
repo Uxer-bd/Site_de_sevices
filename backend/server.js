@@ -13,20 +13,15 @@ app.get('/', (req, res) => {
   res.send('Bienvenue sur le backend de la plateforme !');
 });
 
-app.listen(port, () => {
-  console.log(`Serveur démarré sur le port ${port}`);
-});
-
-// server.js
-const mongoose = require('mongoose'); // Ajoute cette ligne
-
-// ... (le reste du code)
+// Importation des routes
+const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth');
 const profileRoutes = require('./routes/profile');
-//les routes d'authentification
+
+// Enregistrement des routes
 app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
-app.use('/api/services', servicesRoutes); // les routes de services
+app.use('/api/services', servicesRoutes);
 // Connexion à MongoDB
 const uri = 'mongodb://localhost:27017/ma_plateforme';
 mongoose.connect(uri)

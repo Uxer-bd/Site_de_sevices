@@ -81,7 +81,7 @@ router.get('/my-services', authMiddleware, async (req, res) => {
 // Route pour récupérer une annonce par ID (accessible à tous)
 router.get('/:id', async (req, res) => {
   try {
-    const service = await Service.findById(req.params.id).populate('prestataire', 'email');
+    const service = await Service.findById(req.params.id).populate('prestataire', ['email', 'numeroTelephone']);
     if (!service) {
       return res.status(404).json({ message: 'Annonce non trouvée.' });
     }
@@ -92,9 +92,33 @@ router.get('/:id', async (req, res) => {
 });
 
 // Route pour récupérer toutes les annonces (accessible à tous)
+
 router.get('/', async (req, res) => {
   try {
-    const services = await Service.find().populate('prestataire', 'email'); // Populate pour avoir l'email du prestataire
+    const { category, search, location } = req.query; // Récupère les paramètres de requête
+
+    let filter = {}; // Initialise un objet vide pour le filtre
+
+    // Ajoute un filtre par catégorie si le paramètre est présent
+    if (category) {
+      filter.category = category;
+    }
+
+    // Ajoute un filtre par recherche si le paramètre est présent
+    if (search) {
+      filter.$or = [
+        { title: { $regex: search, $options: 'i' } }, // Recherche insensible à la casse dans le titre
+        { description: { $regex: search, $options: 'i' } } // Recherche insensible à la casse dans la description
+      ];
+    }
+
+    // Ajoute un filtre par localisation si le paramètre est présent
+    if (location) {
+      filter.location = { $regex: location, $options: 'i' };
+    }
+
+    // Récupère les services en appliquant le filtre
+    const services = await Service.find(filter).populate('prestataire', 'email');
     res.status(200).json(services);
   } catch (error) {
     res.status(500).json({ message: 'Erreur lors de la récupération des annonces.' });

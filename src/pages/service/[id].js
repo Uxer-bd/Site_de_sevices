@@ -15,11 +15,17 @@ const ServiceDetail = () => {
 
     const fetchService = async () => {
       try {
+        console.log('Tentative de récupération du service avec ID:', id);
         const response = await axios.get(`http://localhost:5000/api/services/${id}`);
+        console.log('Réponse du serveur:', response.data);
         setService(response.data);
       } catch (err) {
-        setError('Impossible de charger les détails de l\'annonce.');
-        console.error('Erreur de chargement des services:', err);
+        console.error('Détails de l\'erreur:', {
+          message: err.message,
+          status: err.response?.status,
+          responseData: err.response?.data
+        });
+        setError(`Erreur: ${err.response?.data?.message || err.message}`);
       } finally {
         setLoading(false);
       }
@@ -47,7 +53,21 @@ const ServiceDetail = () => {
       <p><strong>Catégorie:</strong> {service.category}</p>
       <p><strong>Prix:</strong> {service.price} XOF</p>
       <p><strong>Localisation:</strong> {service.location}</p>
-      <p><strong>Prestataire:</strong> {service.prestataire?.email  || 'N/A'} | (ID: {service.prestataire?._id})</p>
+      <p><strong>Prestataire:</strong> {service.prestataire?.email  || 'N/A'}</p>
+      {service.prestataire?.numeroTelephone && (
+        <div style={{ marginTop: '20px' }}>
+          <h3>Contacter ce prestataire :</h3>
+          <a href={`tel:${service.prestataire.numeroTelephone}`} style={{ marginRight: '10px' }}>
+            <button style={{ backgroundColor: '#007bff', color: 'white', padding: '8px 15px', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Appeler</button>
+          </a>
+          <a href={`sms:${service.prestataire.numeroTelephone}`} style={{ marginRight: '10px' }}>
+            <button style={{ backgroundColor: '#28a745', color: 'white', padding: '8px 15px', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Envoyer un SMS</button>
+          </a>
+          <a href={`https://wa.me/${service.prestataire.numeroTelephone}`} target="_blank" rel="noopener noreferrer">
+            <button style={{ backgroundColor: '#25D366', color: 'white', padding: '8px 15px', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>WhatsApp</button>
+          </a>
+        </div>
+      )}
       <Link href="/" style={{ display: 'inline-block', marginTop: '20px', padding: '10px 15px', backgroundColor: '#555', color: 'white', textDecoration: 'none', borderRadius: '5px' }}>
         Retour à la liste
       </Link>
