@@ -3,21 +3,25 @@ const express = require('express');
 const router = express.Router();
 const Service = require('../models/Service');
 const authMiddleware = require('../middleware/authMiddleware');
+const upload = require('../middleware/uploadMiddleware');
+const path = require('path');
 
 // Route pour créer une annonce (accessible uniquement aux prestataires connectés)
-router.post('/', authMiddleware, async (req, res) => {
+router.post('/', authMiddleware, upload.single('image'), async (req, res) => {
   try {
     if (req.userData.role !== 'prestataire') {
       return res.status(403).json({ message: 'Accès refusé. Seuls les prestataires peuvent créer des annonces.' });
     }
     const { title, description, category, price, location } = req.body;
+    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
     const newService = new Service({
       title,
       description,
       category,
       price,
       location,
-      prestataire: req.userData.id
+      prestataire: req.userData.id,
+      imageUrl
     });
     await newService.save();
     res.status(201).json({ message: 'Annonce créée avec succès !', service: newService });

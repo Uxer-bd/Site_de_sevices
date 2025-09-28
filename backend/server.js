@@ -7,6 +7,7 @@ const servicesRoutes = require('./routes/service'); // Importation des routes de
 
 app.use(cors());
 app.use(express.json()); // Permet de traiter les données JSON
+app.use('/uploads', express.static('public/uploads')); // Servir les fichiers statiques du dossier uploads
 
 // Une route de test pour vérifier que tout fonctionne
 app.get('/', (req, res) => {
