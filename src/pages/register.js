@@ -16,7 +16,7 @@ const Register = () => {
       alert(response.data);
       router.push('/login');
     } catch (error) {
-      alert('Erreur lors de l\'inscription.');
+      alert('Erreur lors de l&apos;inscription.');
     }
   };
 
@@ -39,7 +39,7 @@ const Register = () => {
             <option value="prestataire">Prestataire</option>
           </select>
         </div>
-        <button type="submit">S'inscrire</button>
+        <button type="submit">S&apos;inscrire</button>
       </form>
     </div>
   );

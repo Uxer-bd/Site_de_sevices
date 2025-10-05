@@ -1,0 +1,101 @@
+.profileMenu {
+  position: relative;
+}
+
+.profileButton {
+  background: none;
+  border: 1px solid #e0e0e0;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  color: #666;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+
+.profileButton:hover {
+  background-color: #f8f8f8;
+  border-color: #0070f3;
+  color: #0070f3;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 112, 243, 0.1);
+}
+
+.dropdownMenu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  min-width: 240px;
+  z-index: 1000;
+  overflow: hidden;
+  border: 1px solid #eaeaea;
+  animation: slideDown 0.2s ease;
+  padding: 8px 0;
+}
+
+.dropdownMenu a,
+.dropdownMenu button {
+  display: flex;
+  padding: 12px 16px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: #333;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.dropdownMenu a:hover,
+.dropdownMenu button:hover {
+  background-color: #f5f5f5;
+  color: #0070f3;
+}
+
+.dropdownMenu a svg,
+.dropdownMenu button svg {
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.dropdownMenu a:hover svg,
+.dropdownMenu button:hover svg {
+  color: #0070f3;
+}
+
+.logoutButton {
+  margin-top: 8px;
+  border-top: 1px solid #eee !important;
+  color: #dc3545 !important;
+}
+
+.logoutButton:hover {
+  background-color: #fff5f5 !important;
+  color: #dc3545 !important;
+}
+
+.logoutButton svg {
+  color: #dc3545 !important;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -66,7 +66,7 @@ const MyServices = () => {
     <div style={{ padding: '20px' }}>
       <h1>Mes annonces</h1>
       {services.length === 0 ? (
-        <p>Vous n'avez pas encore publié d'annonces. (ID: {services.prestataire?._id}) <Link href="/publish">Publier une annonce</Link></p>
+        <p>Vous n&apos;avez pas encore publié d&apos;annonces. (ID: {services.prestataire?._id}) <Link href="/publish">Publier une annonce</Link></p>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
           {services.map((service) => (

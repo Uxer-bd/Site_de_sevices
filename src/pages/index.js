@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
-
+import Image from 'next/image';  // If you need image optimization
+import styles from '../styles/Home.module.css';  // If you have CSS modules
 
 const Home = () => {
   const [services, setServices] = useState([]);
@@ -99,9 +100,11 @@ const Home = () => {
                 overflow: 'hidden'
               }}>
                 {service.imageUrl ? (
-                  <img
+                  <Image
                     src={`http://localhost:5000${service.imageUrl}`}
                     alt={service.title}
+                    width={400}
+                    height={200}
                     style={{
                       width: '100%',
                       height: '100%',
@@ -162,7 +165,7 @@ const Home = () => {
                     <span style={{ fontSize: '0.9rem', color: '#666' }}>{service.prestataire?.email || 'N/A'}</span>
                   </div> */}
 
-                  <Link 
+                  <Link
                     href={`/service/${service._id}`}
                     className="btn btn-primary"
                     style={{

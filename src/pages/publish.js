@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/context/AuthContext';
 import axios from 'axios';
+import Image from 'next/image';
 
 const Publish = () => {
   const [title, setTitle] = useState('');
@@ -17,7 +18,7 @@ const Publish = () => {
   const { isLoggedIn, userRole } = useAuth(); // Nous allons ajouter userRole au contexte
 
   useEffect(() => {
-    // Redirige si l'utilisateur n'est pas connecté ou n'est pas un prestataire
+    // Redirige si l&apos;utilisateur n&apos;est pas connecté ou n&apos;est pas un prestataire
     if (!isLoggedIn) {
       router.push('/login');
     } else if (!isLoggedIn || userRole !== 'prestataire') {
@@ -110,20 +111,20 @@ const Publish = () => {
           />
           {previewUrl && (
             <div style={{ marginTop: '10px' }}>
-              <p>Aperçu de l'image:</p>
-              <img 
-                src={previewUrl} 
-                alt="Aperçu" 
-                style={{ 
-                  maxWidth: '200px', 
-                  maxHeight: '200px', 
-                  objectFit: 'cover' 
-                }} 
+              <p>Aperçu de l&apos;image:</p>
+              <Image
+                src={previewUrl}
+                alt="Aperçu"
+                style={{
+                  maxWidth: '200px',
+                  maxHeight: '200px',
+                  objectFit: 'cover'
+                }}
               />
             </div>
           )}
         </div>
-        <button 
+        <button
           type="submit"
           style={{
             backgroundColor: '#4CAF50',
@@ -135,7 +136,7 @@ const Publish = () => {
             marginTop: '20px'
           }}
         >
-          Publier l'annonce
+          Publier l&apos;annonce
         </button>
       </form>
     </div>

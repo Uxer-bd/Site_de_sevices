@@ -96,7 +96,7 @@ const EditService = () => {
           <label>Localisation:</label>
           <input type="text" name="location" value={formData.location} onChange={handleChange} required />
         </div>
-        <button type="submit">Modifier l'annonce</button>
+        <button type="submit">Modifier l&apos;annonce</button>
       </form>
     </div>
   );

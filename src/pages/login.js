@@ -1,6 +1,7 @@
 // src/pages/login.js
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import axios from 'axios';
 import { useAuth } from '@/context/AuthContext';
 
@@ -36,7 +37,7 @@ const Login = () => {
         </div>
         <button type="submit">Se connecter</button>
       </form>
-      <h6 style={{ margin : '20px' }}>Vous n'avez pas de compte ? Inscrivez-vous en tant que <a href="/register" style={{ color : 'blue' }}>Prestataire</a> ou <a href="/register-client" style={{ color : 'blue' }}>Client</a></h6>
+      <h6 style={{ margin: '20px' }}>Vous n&apos;avez pas de compte ? Inscrivez-vous en tant que <Link href="/register" style={{ color: 'blue' }}>Prestataire</Link> ou <Link href="/register-client" style={{ color: 'blue' }}>Client</Link></h6>
     </div>
   );
 };

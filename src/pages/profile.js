@@ -12,7 +12,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (!isLoggedIn) {
-      router.push('/login'); // Redirige si l'utilisateur n'est pas connecté
+      router.push('/login'); // Redirige si l&apos;utilisateur n&apos;est pas connecté
       return;
     }
     if (userRole !== 'prestataire') {

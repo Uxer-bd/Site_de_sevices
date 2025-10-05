@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const ServiceDetail = () => {
   const router = useRouter();
@@ -11,7 +12,7 @@ const ServiceDetail = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!id) return; // S'il n'y a pas d'ID, on arrête
+    if (!id) return; // S&apos;il n&apos;y a pas d&apos;ID, on arrête
 
     const fetchService = async () => {
       try {
@@ -20,7 +21,7 @@ const ServiceDetail = () => {
         console.log('Réponse du serveur:', response.data);
         setService(response.data);
       } catch (err) {
-        console.error('Détails de l\'erreur:', {
+        console.error('Détails de l&apos;erreur:', {
           message: err.message,
           status: err.response?.status,
           responseData: err.response?.data
@@ -35,7 +36,7 @@ const ServiceDetail = () => {
   }, [id]);
 
   if (loading) {
-    return <div>Chargement des détails de l'annonce...</div>;
+    return <div>Chargement des détails de l&apos;annonce...</div>;
   }
 
   if (error) {
@@ -48,16 +49,18 @@ const ServiceDetail = () => {
 
   return (
     <div className='disposition' style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
-        <div style={{ 
+        <div style={{
                 position: 'relative',
                 width: '100%',
                 height: '200px',
                 overflow: 'hidden'
         }}>
           {service.imageUrl ? (
-            <img
+            <Image
               src={`http://localhost:5000${service.imageUrl}`}
               alt={service.title}
+              width={800}
+              height={400}
               style={{
                 width: '100%',
                 height: '100%',
