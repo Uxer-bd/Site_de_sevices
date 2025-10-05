@@ -76,7 +76,7 @@ const Profile = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Mon Profil de Prestataire</h1>
+      <h1>Mon Profil</h1>
       <form onSubmit={handleUpdateProfile}>
         <div>
           <label>Numéro de téléphone :</label>

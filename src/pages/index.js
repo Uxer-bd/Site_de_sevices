@@ -77,7 +77,7 @@ const Home = () => {
       </div>
 
       {services.length === 0 ? (
-        <p>Aucune Contace disponible pour le moment</p>
+        <p>Aucun Contact disponible pour le moment</p>
       ) : (
         <div style={{ margin : '0px 30px' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
@@ -125,7 +125,7 @@ const Home = () => {
                     <span style={{ color: '#666' }}>Aucune image</span>
                   </div>
                 )}
-                <div style={{
+                {/* <div style={{
                   position: 'absolute',
                   top: '10px',
                   right: '10px',
@@ -137,7 +137,7 @@ const Home = () => {
                   fontWeight: 'bold'
                 }}>
                   {service.price} XOF
-                </div>
+                </div> */}
               </div>
 
               <div style={{ padding: '15px', flex: 1, display: 'flex', flexDirection: 'column' }}>

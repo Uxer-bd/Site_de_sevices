@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/context/AuthContext';
 import axios from 'axios';
+import Image from 'next/image';
 
 const EditService = () => {
   const router = useRouter();
@@ -15,8 +16,19 @@ const EditService = () => {
     category: '',
     price: '',
     location: '',
+    imageUrl: '',
   });
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState('');
   const [loading, setLoading] = useState(true);
+  // Gestion du changement d'image
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
 
   useEffect(() => {
     if (!id || !isLoggedIn || userRole !== 'prestataire') {
@@ -51,9 +63,21 @@ const EditService = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`http://localhost:5000/api/services/${id}`, formData, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      let dataToSend;
+      let headers = { Authorization: `Bearer ${token}` };
+      if (imageFile) {
+        dataToSend = new FormData();
+        dataToSend.append('title', formData.title);
+        dataToSend.append('description', formData.description);
+        dataToSend.append('category', formData.category);
+        dataToSend.append('price', formData.price);
+        dataToSend.append('location', formData.location);
+        dataToSend.append('image', imageFile);
+        headers['Content-Type'] = 'multipart/form-data';
+      } else {
+        dataToSend = formData;
+      }
+      await axios.put(`http://localhost:5000/api/services/${id}`, dataToSend, { headers });
       alert('Annonce modifiée avec succès !');
       router.push('/my-services');
     } catch (error) {
@@ -65,11 +89,42 @@ const EditService = () => {
   if (loading) {
     return <div>Chargement du formulaire...</div>;
   }
-
   return (
     <div style={{ padding: '20px' }}>
       <h1>Modifier une annonce</h1>
       <form onSubmit={handleSubmit}>
+        <div>
+          <label>Image du service:</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            style={{ marginBottom: '10px' }}
+          />
+          {(imagePreview || formData.imageUrl) && (
+            <div style={{ marginTop: '10px' }}>
+              <p>Aperçu de l&apos;image:</p>
+              <Image
+                src={
+                  imagePreview ||
+                  (typeof formData.imageUrl === 'string' && formData.imageUrl.startsWith('http')
+                    ? formData.imageUrl
+                    : formData.imageUrl
+                      ? `http://localhost:5000${formData.imageUrl}`
+                      : '')
+                }
+                alt="Aperçu"
+                width={200}
+                height={200}
+                style={{
+                  maxWidth: '200px',
+                  maxHeight: '200px',
+                  objectFit: 'cover'
+                }}
+              />
+            </div>
+          )}
+        </div>
         <div>
           <label>Titre:</label>
           <input type="text" name="title" value={formData.title} onChange={handleChange} required />
@@ -88,10 +143,10 @@ const EditService = () => {
             <option value="autres">Autres</option>
           </select>
         </div>
-        <div>
+        {/* <div>
           <label>Prix:</label>
-          <input type="number" name="price" value={formData.price} onChange={handleChange} required />
-        </div>
+          <input type="number" name="price" value={formData.price} onChange={handleChange}/>
+        </div> */}
         <div>
           <label>Localisation:</label>
           <input type="text" name="location" value={formData.location} onChange={handleChange} required />

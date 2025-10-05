@@ -31,7 +31,7 @@ router.post('/', authMiddleware, upload.single('image'), async (req, res) => {
 });
 
 // Route pour modifier une annonce (accessible uniquement par son créateur)
-router.put('/:id', authMiddleware, async (req, res) => {
+router.put('/:id', authMiddleware, upload.single('image'), async (req, res) => {
   try {
     const service = await Service.findById(req.params.id);
     if (!service) {
@@ -47,6 +47,10 @@ router.put('/:id', authMiddleware, async (req, res) => {
     service.category = category || service.category;
     service.price = price || service.price;
     service.location = location || service.location;
+    // Si une nouvelle image est envoyée, on met à jour l'URL
+    if (req.file) {
+      service.imageUrl = `/uploads/${req.file.filename}`;
+    }
     await service.save();
     res.status(200).json({ message: 'Annonce modifiée avec succès !', service });
   } catch (error) {
